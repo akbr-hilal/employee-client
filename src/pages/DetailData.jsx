@@ -35,6 +35,7 @@ function DetailData() {
               readOnly 
               value={employees?.nik} 
               className='form-control' 
+              disabled
             />
           </div>
           <div className="mb-3">
@@ -44,6 +45,7 @@ function DetailData() {
               readOnly 
               value={employees?.fullName} 
               className='form-control' 
+              disabled
             />
           </div>
           <div className="mb-3">
@@ -57,6 +59,7 @@ function DetailData() {
                 checked={employees?.gender === "Laki-laki"} 
                 value="Laki-laki" 
                 readOnly
+                disabled
               />
               <label htmlFor="gender-male" className="ms-1"> Laki-laki </label>
               <input 
@@ -67,6 +70,7 @@ function DetailData() {
                 checked={employees?.gender === "Perempuan"} 
                 value="Perempuan" 
                 readOnly
+                disabled
               />
               <label htmlFor="gender-male" className="ms-1"> Perempuan </label>
             </div>
@@ -80,6 +84,7 @@ function DetailData() {
               value={employees?.birthDay}
               className="form-control"
               readOnly
+              disabled
             />
           </div>
           <div className="mb-3">
@@ -91,12 +96,13 @@ function DetailData() {
               rows={3}
               className="form-control"
               readOnly
+              disabled
             ></textarea>
 
           </div>
           <div className="mb-3">
             <label htmlFor="country">Negara</label>
-            <select name="country" id="country" value={employees?.country} className='form-select'>
+            <select name="country" id="country" value={employees?.country} className='form-select' disabled>
               <option value="" selected>Pilih Negara</option>
               {listCountry.map(item => (
                 <option value={item.name} key={item.code}>{item.name}</option>

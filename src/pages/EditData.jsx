@@ -104,6 +104,8 @@ function EditData() {
               value={form?.nik}
               onChange={handleChange} 
               className='form-control' 
+              readOnly
+              disabled
             />
           </div>
           <div className="mb-3">
@@ -115,6 +117,7 @@ function EditData() {
               value={form?.fullName} 
               className='form-control'
               onChange={handleChange} 
+              required
             />
           </div>
           <div className="mb-3">

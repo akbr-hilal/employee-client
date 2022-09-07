@@ -13,6 +13,7 @@ function AddData() {
     navigate("/")
   }
 
+  const [validated, setValidated] = useState(false);
   const [errMessage, setErrMessage] = useState(null)
   const [form, setForm] = useState({
     nik: "",
@@ -77,14 +78,22 @@ function AddData() {
       <h1 className="fw-bold text-center">Add Data</h1>
       {errMessage && errMessage}
       <div className="d-flex justify-content-center">
-        <form onSubmit={(e) => handleSubmit.mutate(e)} style={{ width: "500px" }}>
+        <form onSubmit={(e) => handleSubmit.mutate(e)} style={{ width: "500px" }} className="needs-validation">
           <div className="mb-3">
             <label htmlFor="nik">NIK</label>
-            <input type="number" name="nik" id="nik" className='form-control col-12' value={nik} onChange={handleChange}/>
+            <input type="number" name="nik" id="nik" className='form-control col-12' value={nik} onChange={handleChange} required/>
+            <div class="invalid-tooltip">
+              Silakan masukkan NIK.
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="fullName">Nama Lengkap</label>
-            <input type="text" name="fullName" id="fullName" className='form-control col-12' value={fullName} onChange={handleChange}/>
+            <div className="input-group has-validation">
+              <input type="text" name="fullName" id="fullName" className='form-control col-12' value={fullName} onChange={handleChange} required/>
+              <div class="invalid-tooltip">
+                Silakan masukkan Nama Lengkap.
+              </div>
+            </div>
           </div>
           <div className="mb-3">
             <label htmlFor="gender">Jenis Kelamin</label>

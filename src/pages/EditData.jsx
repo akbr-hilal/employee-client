@@ -86,7 +86,7 @@ function EditData() {
     }
   })
 
-  const handleBack = () => {
+  const handleCancel = () => {
     navigate("/")
   }
   return (
@@ -185,7 +185,7 @@ function EditData() {
           </div>
           <div>
             <button className="btn btn-primary" type='submit'>Edit Data</button>
-            <button className="btn btn-warning ms-2" onClick={handleBack}>Back</button>
+            <button className="btn btn-warning ms-2" onClick={handleCancel}>Cancel</button>
           </div>
         </form>
       </div>

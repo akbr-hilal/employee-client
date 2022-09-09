@@ -1,9 +1,11 @@
-import { useMutation } from '@tanstack/react-query';
 import React, { useState } from 'react'
+import { Formik, Form } from 'formik';
+import * as yup from 'yup';
 import { Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../api';
 import { listCountry } from '../data/listCountry';
+import FormControl from '../components/form/FormControl';
 
 
 function AddData() {
@@ -13,44 +15,45 @@ function AddData() {
     navigate("/")
   }
 
-  const [validated, setValidated] = useState(false);
   const [errMessage, setErrMessage] = useState(null)
-  const [form, setForm] = useState({
+
+  const genderOptions = [
+    {
+      key: "Laki-laki",
+      value: "Laki-laki"
+    },
+    {
+      key: "Perempuan",
+      value: "Perempuan"
+    }
+  ]
+
+  const initialValue = {
     nik: "",
     fullName: "",
     birthDay: "",
     gender: "",
     address: "",
     country: ""
+  }
+  
+  const validationSchema = yup.object({
+    nik: yup.string().required("Isikan NIK"),
+    fullName: yup.string().required("Isikan Nama Lengkap"),
+    birthDay: yup.string(),
+    gender: yup.string(),
+    address: yup.string(),
+    country: yup.string()
   })
 
-  const { nik, fullName, birthDay, address, country } = form;
-
-  const handleChange = e => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value
-    })
-  }
-  // console.log(form)
-
-  const handleSubmit = useMutation(async (e) => {
+  const onSubmit = async (values) => {
     try {
-      e.preventDefault()
 
       const config = {
         headers: {
           "Content-Type": "application/json"
         }
       }
-
-      const formData = new FormData()
-      formData.set("nik", form.nik)
-      formData.set("fullName", form.fullName)
-      formData.set("birthDay", form.birthDay)
-      formData.set("gender", form.gender)
-      formData.set("address", form.address)
-      formData.set("country", form.country)
 
       const alert = (
         <Alert variant='success' className='my-1'>
@@ -59,8 +62,8 @@ function AddData() {
       )
 
       setErrMessage(alert)
-      
-      const res = await API.post("/employees", formData, config)
+
+      const res = await API.post("/employees", values, config)
       console.log(res)
       navigate("/")
     } catch (error) {
@@ -72,63 +75,35 @@ function AddData() {
       )
       setErrMessage(alert)
     }
-  })
+  }
+
   return (
-    <div className="container">
-      <h1 className="fw-bold text-center">Add Data</h1>
+    <div className='container'>
+      <h1 className='fw-bold text-center'>Add Data</h1>
       {errMessage && errMessage}
-      <div className="d-flex justify-content-center">
-        <form onSubmit={(e) => handleSubmit.mutate(e)} style={{ width: "500px" }} className="needs-validation">
-          <div className="mb-3">
-            <label htmlFor="nik">NIK</label>
-            <input type="number" name="nik" id="nik" className='form-control col-12' value={nik} onChange={handleChange} required/>
-            <div class="invalid-tooltip">
-              Silakan masukkan NIK.
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="fullName">Nama Lengkap</label>
-            <div className="input-group has-validation">
-              <input type="text" name="fullName" id="fullName" className='form-control col-12' value={fullName} onChange={handleChange} required/>
-              <div class="invalid-tooltip">
-                Silakan masukkan Nama Lengkap.
-              </div>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="gender">Jenis Kelamin</label>
-            <div>
-              <input type="radio" className='form-check-input' name="gender" id="gender-male" value="Laki-laki" onChange={handleChange} /> 
-              <label htmlFor="gender-male" className="ms-1"> Laki-laki </label>
-              <input type="radio" className='form-check-input ms-4' name="gender" id="gender-female" value="Perempuan" onChange={handleChange} />
-              <label htmlFor="gender-female" className="ms-1"> Perempuan </label>
-            </div>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="birthDay">Tanggal Lahir</label>
-            <input type="date" name="birthDay" id="birthDay" className='form-control' value={birthDay} onChange={handleChange} />
-          </div>
-          <div className="mb-3">
-            <label htmlFor="address">Alamat Lengkap</label>
-            <textarea name="address" id="address" rows={3} className="form-control" onChange={handleChange} value={address}></textarea>
-          </div>
-          <div className="mb-3">
-            <label htmlFor="country">Negara</label>
-            <select name="country" id="country" onChange={handleChange} value={country} className='form-select'>
-              <option value="" selected hidden > Pilih Negara </option>
-              {listCountry.map(item => (
-                <option value={item.name} key={item.code}>{item.name}</option>
-              ))}
-            </select>
-          </div>
-          <div>
-            <button type="submit" className="btn btn-primary">Submit</button>
-            <button className="btn btn-warning ms-2" onClick={handleCancel}>Cancel</button>
-          </div>
-        </form>
+      <div className='d-flex justify-content-center'>
+        <div style={{ width: "500px" }}>
+          <Formik
+            initialValues={initialValue}
+            validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {formik => (
+              <Form>
+                <FormControl control="input" type="number" label="NIK" name="nik" />
+                <FormControl control="input" type="text" label="Nama Lengkap" name="fullName" />
+                <FormControl control="radio" label="Jenis Kelamin" name="gender" options={genderOptions} />
+                <FormControl control="input" type="date" label="Tanggal Lahir" name="birthDay"/>
+                <FormControl control="textarea" label="Alamat Tempat Tinggal" name="address"/>
+                <FormControl control="select" label="Negara" name="country" options={listCountry}/>
+                <button type="submit" className='btn btn-primary'>Add Data</button>
+                <button className='btn btn-danger ms-2' onClick={handleCancel}>Cancel Add</button>
+              </Form>
+            )}
+          </Formik>
+        </div>
       </div>
     </div>
-    
   )
 }
 

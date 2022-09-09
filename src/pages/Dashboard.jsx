@@ -78,10 +78,7 @@ function Dashboard() {
         </Alert>
       )
       setErrMessage(alert)
-      if(res.status === 200) {
-        const interval = setInterval(1000)
-        return () => clearInterval(interval);
-      }
+
       navigate("/")
     } catch (error) {
       console.log(error)
@@ -99,6 +96,7 @@ function Dashboard() {
       deleteById.mutate(idDelete)
       setConfirmDelete(null)
       handleCloseDelete()
+      window.location.reload(false)
     }
   }, [confirmDelete])
 

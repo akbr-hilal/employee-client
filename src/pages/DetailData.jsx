@@ -105,12 +105,12 @@ function DetailData() {
             <select name="country" id="country" value={employees?.country} className='form-select' disabled>
               <option value="" selected>Pilih Negara</option>
               {listCountry.map(item => (
-                <option value={item.name} key={item.code}>{item.name}</option>
+                <option value={item.value} key={item.key}>{item.value}</option>
               ))}
             </select>
           </div>
           <div>
-            <button className="btn btn-warning" onClick={handleBack}>Back</button>
+            <button className="btn btn-primary" onClick={handleBack}>Back</button>
           </div>
         </form>
       </div>

@@ -179,13 +179,13 @@ function EditData() {
             >
               <option value="" selected hidden>Pilih Negara</option>
               {listCountry.map(item => (
-                <option value={item.name} key={item.code}>{item.name}</option>
+                <option value={item.value} key={item.key}>{item.value}</option>
               ))}
             </select>
           </div>
           <div>
             <button className="btn btn-primary" type='submit'>Edit Data</button>
-            <button className="btn btn-warning ms-2" onClick={handleCancel}>Cancel</button>
+            <button className="btn btn-danger ms-2" onClick={handleCancel}>Cancel Edit</button>
           </div>
         </form>
       </div>

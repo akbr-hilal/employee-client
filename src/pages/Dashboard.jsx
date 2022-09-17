@@ -177,13 +177,13 @@ function Dashboard() {
                 </>
               ) : (
                 <tr className="text-center fw-bold">
-                  <td colSpan={9}>No Data Employee</td>
+                  <td colSpan={9}>Data Tidak Ditemukan</td>
                 </tr>
               )}
             </>
           ) : (
             <tr className="text-center fw-bold">
-              <td colSpan={9}>No Data Employee</td>
+              <td colSpan={9}>Data Kosong silahkan untuk menambahkan Data terlebih dahulu</td>
             </tr>
           )}
         </tbody>
